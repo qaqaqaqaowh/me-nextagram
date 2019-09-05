@@ -1,1 +1,1 @@
-web: flask migrate; flask run
+web: flask migrate; flask run --host=0.0.0.0 --port=$PORT
