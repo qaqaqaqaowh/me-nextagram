@@ -1,0 +1,1 @@
+web: flask migrate; flask run
