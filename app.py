@@ -1,8 +1,8 @@
 from flask import Flask
 import os
+from database import db
 import peeweedbevolve
 from models import *
-from database import db
 
 app = Flask(__name__)
 

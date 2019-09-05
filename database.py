@@ -1,4 +1,4 @@
-from playhouse.postgres_ext import *
+from playhouse.db_url import connect
 import os
 
-db = PostgresqlExtDatabase(os.environ["DATABASE_URL"].split("/")[-1], user='postgres')
+db = connect(os.environ["DATABASE_URL"])
