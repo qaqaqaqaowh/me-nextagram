@@ -2,9 +2,79 @@
 <html>
 <head>
 	<title>NEXTAGRAM</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Caveat:400,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Cardo&display=swap" rel="stylesheet">
+	<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+	<link rel="icon" 
+      type="image/jpg" 
+      href="/static/favicon.jpg">
+	{% assets "css_all" %}
+    	<link rel="stylesheet" type="text/css" href="{{ASSET_URL}}">
+	{% endassets %}
 </head>
 <body>
-	WELCOME
+	<nav>
+		<a id="logo" href="{{url_for('home')}}">
+			<img src="/static/art.png">
+			<h2>Nextagram</h2>
+		</a>
+		<div id="search-container">
+			<input type="text" id="search" autocomplete="off">
+			<div id="autocomplete" class="hidden"></div>
+		</div>
+		<div id="functions">
+			<div>
+				{% if not current_user.is_authenticated %}
+					<a href="{{url_for('users.new')}}">Sign Up!</a>
+					<a href="{{url_for('sessions.new')}}">Login!</a>
+				{% else %}
+					<a href="#" id="requests">
+						<div id="requests-container">
+							<div class="pointer"></div>
+							<div id="request-results">
+								{% if current_user.follower_requests | length %}
+									{% for u in current_user.follower_requests %}
+										<div>
+											<img src="{{u.image}}">
+											{{u.username}}
+											<div>
+												<button data-userId="{{u.id}}" class="reqButtons success">Accept</button>
+												<button data-userId="{{u.id}}" class="reqButtons danger">Decline</button>
+											</div>
+										</div>
+									{% endfor %}
+								{% else %}
+									<p style="text-align: center; margin: 0;">No requests yet</p>
+								{% endif %}
+							</div>
+						</div>
+						Requests
+					</a>
+					<a href="{{url_for('users.show', username=current_user.username)}}">Profile</a>
+					<form id="logout" action="{{url_for('sessions.destroy')}}" method="POST">
+						<input type="submit" value="Logout :(">
+					</form>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
+
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for cat, message in messages %}
+				<div class="flash {{cat}}">
+					{{message}}
+					<span class="flash-close">X</span>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
 	{{render() | safe}}
+
+	{% assets "js_all" %}
+    	<script type="text/javascript" src="{{ASSET_URL}}"></script>
+	{% endassets %}
 </body>
 </html>

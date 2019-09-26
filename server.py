@@ -3,4 +3,4 @@ import insta_web
 import os
 
 if __name__ == "__main__":
-	app.run()
+	app.run(bind="0.0.0.0")

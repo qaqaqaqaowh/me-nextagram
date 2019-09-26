@@ -11,8 +11,8 @@ class BaseModel(pw.Model):
 		self.validate(self.__class__.get_or_none(self.__class__.id == self.id))
 
 		if not len(self.errors):
-			self.updated_at = datetime.now
-			super(BaseModel, self).save(*args, **kwargs)
+			self.updated_at = datetime.now()
+			return super(BaseModel, self).save(*args, **kwargs)
 
 	def validate(self, prev_self):
 		pass

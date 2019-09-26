@@ -1,0 +1,14 @@
+<form action="{{url_for('users.create')}}" method="POST">
+	<h2>Hi there!</h2>
+	<p>Already one of us? &nbsp; <a href="{{url_for('sessions.new')}}">Click Here!</a></p>
+	<hr>
+	<label for="username">Username</label>
+	<input id="username" type="text" name="username" value="{{username}}">
+	<label for="email">Email</label>
+	<input id="email" type="email" name="email" value="{{email}}">
+	<label for="password">Password</label>
+	<input id="password" type="password" name="password">
+	<label for="conf">Password Confirmation</label>
+	<input id="conf" type="password" name="password_conf">
+	<input type="submit" value="Sign Up">
+</form>

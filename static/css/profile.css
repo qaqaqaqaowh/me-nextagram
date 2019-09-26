@@ -1,0 +1,61 @@
+#profile-top {
+	display: flex;
+}
+
+#profile-pic {
+	height: 200px;
+	margin-right: 10px;
+}
+
+#profile-info {
+	border-left: 1px solid #e9e9e9;
+	padding: 10px;
+	width: 100%;
+	position: relative;
+}
+
+#profile-info h2 {
+	margin: 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+#profile-info h2 div {
+	display: flex;
+	align-items: center;
+}
+
+#profile-info h2 div form {
+	margin: 0;
+	max-width: initial;
+	margin-left: 5px;
+}
+
+#profile-info h2 div form input[type=submit] {
+	padding: 10px;
+	height: 1em;
+	line-height: 0px;
+}
+
+#profile-bio {
+	font-weight: normal;
+	font-family: 'Cardo', serif;
+	text-align: center;
+}
+
+.image-container {
+	margin: 20px;
+}
+
+.images {
+	transform: scale(1);
+	transition-property: all;
+	transition-duration: .2s;
+	transition-timing-function: linear;
+	z-index: 0;
+}
+
+.images-hover {
+	transform: scale(1.1);
+	z-index: 1;
+}

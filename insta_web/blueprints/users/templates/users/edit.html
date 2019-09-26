@@ -1,0 +1,41 @@
+<form id="edit-form" action="{{url_for('users.update', id=user.id)}}" method="POST" enctype="multipart/form-data">
+	<label for="image" id="image-label"><img id="preview" src="{{user.profile_image or '/static/blank.png'}}"></label>
+	<input id="image" type="file" name="profile">
+	<label for="username">Username</label>
+	<input id="username" type="text" name="username" value="{{user.username}}">
+	<label for="bio">Bio</label>
+	<input id="bio" type="textarea" name="bio" value="{{user.bio}}">
+	<label for="private" class="{{'danger' if user.is_private else 'success'}}">
+		{{"Private" if user.is_private else "Public"}}
+	</label>
+	<input class="hidden" id="private" type="checkbox" name="private" {{"checked" if user.is_private else ""}}>
+	<input type="submit" value="Update">
+</form>
+
+<script type="text/javascript">
+	const input = document.getElementById("image")
+	input.onchange = () => {
+		if (input.files && input.files[0]) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				document.getElementById("preview").src= e.target.result
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	const checkbox = document.getElementById("private")
+	const label = document.querySelector('label[for="private"]')
+
+	checkbox.onchange = () => {
+		if (checkbox.checked) {
+			label.classList.remove("success")
+			label.classList.add("danger")
+			label.innerText = "Private"
+		} else {
+			label.classList.add("success")
+			label.classList.remove("danger")
+			label.innerText = "Public"
+		}
+	}
+</script>

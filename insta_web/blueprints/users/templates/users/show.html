@@ -1,0 +1,95 @@
+<div class="container">
+	<div id="profile-top">
+		<img id="profile-pic" src="{{user.image}}">
+		<div id="profile-info">
+			<h2>
+				<div>
+					{{user.username}}
+					{% if not user == current_user %}
+						{% if current_user in user.follower_requests %}
+							<form action="{{url_for('follows.destroy', user_id=user.id)}}" method="POST">
+								<input class="info" type="submit" value="Pending...">
+							</form>
+						{% elif not current_user in user.followers %}
+							<form action="{{url_for('follows.create', user_id=user.id)}}" method="POST">
+								<input class="success" type="submit" value="Follow">
+							</form>
+						{% else %}
+							<form action="{{url_for('follows.destroy', user_id=user.id)}}" method="POST">
+								<input class="danger" type="submit" value="Unfollow">
+							</form>
+						{% endif %}
+					{% endif %}
+				</div>
+				{% if user == current_user %}
+					<a href="{{url_for('users.edit', id=user.id)}}">Edit Profile</a>
+				{% endif %}
+			</h2>
+			<hr>
+			<div id="profile-bio">
+				{% if user.bio %}
+					{{user.bio}}
+				{% else %}
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	{% if user.is_private and not(current_user in user.followers) and not(user == current_user) %}
+		<p style="text-align: center;">User profile is private!</p>
+	{% else %}
+		{% if user.images | length %}
+			<div class="image-container">
+				{% for image in user.images %}
+					<div class="images">
+						<img onload="m.layout()" src="{{image.url}}">
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<p style="text-align: center;">
+				{% if user == current_user %}
+					You have not posted any images yet!
+				{% else %}
+					User has no images yet
+				{% endif %}
+			</p>
+		{% endif %}
+		{% if current_user == user %}
+			<form class="file-upload" action="{{url_for('images.create')}}" method="POST" enctype="multipart/form-data">
+				<label for="image">Upload!</label>
+				<input id="image" type="file" name="image">
+			</form>
+			<script type="text/javascript">
+				const input = document.getElementById("image")
+				input.onchange = () => {
+					input.parentElement.submit()
+				}
+			</script>
+		{% endif %}
+	{% endif %}
+</div>
+
+<script type="text/javascript">
+	const container = document.querySelector(".image-container")
+	const m = new Masonry(container, {
+		itemSelector: '.images',
+		stagger: 100
+	})
+	const is = document.getElementsByClassName('images')
+	for (let i = 0; i < is.length; i++) {
+		is[i].onmouseenter = () => {
+			is[i].classList.add('images-hover')
+		}
+		is[i].onmouseleave = () => {
+			is[i].classList.remove('images-hover')
+		}
+	}
+</script>
